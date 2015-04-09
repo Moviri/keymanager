@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+if Gem::Version.new(::Vagrant::VERSION) < Gem::Version.new('1.5')
+  Vagrant.require_plugin('vagrant-keymanager')
+end
+
+Vagrant.configure('2') do |config|
+
+  if ENV.key? 'VAGRANT_BOX'
+    config.vm.box = ENV['VAGRANT_BOX']
+  else
+    config.vm.box = 'precise64'
+    config.vm.box_url = 'http://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-vagrant-amd64-disk1.box'
+  end
+
+  config.keymanager.enabled = true
+  config.keymanager.manage_host = true
+
+  config.vm.define :server1 do |server|
+    server.vm.hostname = 'fry'
+    server.vm.network :private_network, :ip => '10.0.5.2'
+    server.keymanager.aliases = %w(test-alias)
+  end
+
+  config.vm.define :server2 do |server|
+    server.vm.hostname = 'bender'
+    server.vm.network :private_network, :ip => '10.0.5.3'
+  end
+
+  config.vm.define :server3 do |server|
+    server.vm.hostname = 'leena'
+    server.vm.network :private_network, :ip => '10.0.5.4'
+    server.vm.provision :keymanager
+  end
+end
