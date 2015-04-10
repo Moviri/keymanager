@@ -21,13 +21,43 @@ module VagrantPlugins
           machine.sshrootresult << data if type == :stdout
         end
         puts "SSH root key: "+machine.sshrootresult
+
+        call_custom_solver(machine)
       end
 
       def set_guest_keys(machine)
         puts "TODO: SET SSH key"
       end
 
-      # private
+      private
+
+      def call_custom_solver(resolving_machine)
+        custom_ssh_resolver = machine.config.keymanager.ssh_resolver
+        if custom_ssh_resolver
+          get_machines.map { |machine| custom_ssh_resolver.call(machine, resolving_machine) }
+        end
+      end
+
+      def get_machines
+        if @config.hostmanager.include_offline?
+          machines = @global_env.machine_names
+        else
+          machines = @global_env.active_machines
+            .select { |name, provider| provider == @provider }
+            .collect { |name, provider| name }
+        end
+        # Collect only machines that exist for the current provider
+        machines.collect do |name|
+              begin
+                machine = @global_env.machine(name, @provider)
+              rescue Vagrant::Errors::MachineNotFound
+                # ignore
+              end
+              machine
+            end
+          .reject(&:nil?)
+      end      
+
 
     end
   end
