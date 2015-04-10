@@ -14,6 +14,8 @@ Install the plugin following the typical Vagrant 1.1 procedure:
 Usage
 -----
 
+THIS A STILL A WORK IN PROGRESS. DO NOT USE
+
 Example configuration:
 
 ```ruby
