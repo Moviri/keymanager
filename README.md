@@ -46,7 +46,7 @@ node_config.vm.provider 'aws' do |aws, override|
 
 	override.keymanager.ip_resolver = proc do |curr_machine|
 	    result = ""
-	    curr_machine.communicate.execute("grep '^rsa_ssh' ~/.ssh/authorized_keys | wc -l") do |type, data|
+	    curr_machine.communicate.execute("grep '^ssh-rsa' ~/.ssh/authorized_keys | wc -l") do |type, data|
 	      result << data if type == :stdout
 	      puts "Current machine has "+result+" SSH keys"
 	    end
