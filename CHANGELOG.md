@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4
+### Fixes
+* Changed logic in test file existence
+
+
 ## 1.0.3
 ### Fixes
 * Removed wrong action hook "update_all" called during vagrant up

@@ -62,7 +62,7 @@ module VagrantPlugins
       private
 
       def get_user_key(machine)
-        if (!machine.communicate.test("test -e ~/.ssh/id_rsa") or !machine.communicate.test("test -e ~/.ssh/id_rsa.pub"))
+        if (machine.communicate.test("test -e ~/.ssh/id_rsa") or machine.communicate.test("test -e ~/.ssh/id_rsa.pub"))
           machine.communicate.execute("ssh-keygen -q -f ~/.ssh/id_rsa -P ''")
         end
         sshresult=""
@@ -73,7 +73,7 @@ module VagrantPlugins
       end
 
       def get_root_key(machine)
-        if (!machine.communicate.test("sudo test -e ~/.ssh/id_rsa") or !machine.communicate.test("sudo test -e ~/.ssh/id_rsa.pub"))
+        if (machine.communicate.test("sudo test -e ~/.ssh/id_rsa") or machine.communicate.test("sudo test -e ~/.ssh/id_rsa.pub"))
           machine.communicate.sudo("ssh-keygen -q -f ~/.ssh/id_rsa -P ''")
         end
         sshrootresult = ""
