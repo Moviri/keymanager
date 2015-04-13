@@ -1,17 +1,17 @@
 module VagrantPlugins
   module KeyManager
     class Config < Vagrant.plugin('2', :config)
-      attr_accessor :aliases
-      attr_accessor :ssh_resolver
+      attr_accessor :extra_params
+      attr_accessor :extra_steps
 
       def initialize
-        @aliases = []
-        @aliases = Array.new
-        @ssh_resolver = nil
+        @extra_params = []
+        @extra_params = Array.new
+        @extra_steps = nil
       end
 
       def finalize!
-        @aliases = [ @aliases ].flatten
+        @extra_params = [ @extra_params ].flatten
       end
 
       def validate(machine)
@@ -19,20 +19,20 @@ module VagrantPlugins
         # errors << validate_bool('keymanager.enabled', @enabled)
         errors.compact!
 
-        # check if aliases option is an Array
-        if  !machine.config.keymanager.aliases.kind_of?(Array) &&
-            !machine.config.keymanager.aliases.kind_of?(String)
+        # check if extra_params option is an Array
+        if  !machine.config.keymanager.extra_params.kind_of?(Array) &&
+            !machine.config.keymanager.extra_params.kind_of?(String)
           errors << I18n.t('vagrant_keymanager.config.not_an_array_or_string', {
-            :config_key => 'keymanager.aliases',
-            :is_class   => aliases.class.to_s,
+            :config_key => 'keymanager.extra_params',
+            :is_class   => extra_params.class.to_s,
           })
         end
 
-        if !machine.config.keymanager.ssh_resolver.nil? &&
-           !machine.config.keymanager.ssh_resolver.kind_of?(Proc)
+        if !machine.config.keymanager.extra_steps.nil? &&
+           !machine.config.keymanager.extra_steps.kind_of?(Proc)
           errors << I18n.t('vagrant_keymanager.config.not_a_proc', {
-            :config_key => 'keymanager.ssh_resolver',
-            :is_class   => ssh_resolver.class.to_s,
+            :config_key => 'keymanager.extra_steps',
+            :is_class   => extra_steps.class.to_s,
           })
         end
 
