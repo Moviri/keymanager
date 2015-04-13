@@ -44,7 +44,7 @@ node_config.vm.provider 'aws' do |aws, override|
 
 	override.ssh.username = 'centos'
 
-	override.keymanager.ip_resolver = proc do |curr_machine|
+	override.keymanager.extra_steps = proc do |curr_machine|
 	    result = ""
 	    curr_machine.communicate.execute("grep '^ssh-rsa' ~/.ssh/authorized_keys | wc -l") do |type, data|
 	      result << data if type == :stdout
