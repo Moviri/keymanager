@@ -15,14 +15,6 @@ module VagrantPlugins
         Config
       end
 
-      action_hook(:keymanager, :machine_action_up) do |hook|
-        hook.prepend(Action.update_all)
-      end
-
-      action_hook(:keymanager, :machine_action_destroy) do |hook|
-        hook.prepend(Action.update_all)
-      end
-
       provisioner(:keymanager) do
         require_relative 'provisioner'
         Provisioner
