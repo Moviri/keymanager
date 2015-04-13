@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.5
+### Fixes
+* Changed logic in test file existence
+
+
 ## 1.0.4
 ### Fixes
 * Changed logic in test file existence

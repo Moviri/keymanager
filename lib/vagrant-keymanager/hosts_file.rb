@@ -62,9 +62,7 @@ module VagrantPlugins
       private
 
       def get_user_key(machine)
-        if (machine.communicate.test("test -e ~/.ssh/id_rsa") or machine.communicate.test("test -e ~/.ssh/id_rsa.pub"))
-          machine.communicate.execute("ssh-keygen -q -f ~/.ssh/id_rsa -P ''")
-        end
+        machine.communicate.execute("if [ ! -e ~/.ssh/id_rsa ] || [ ! -e ~/.ssh/id_rsa.pub ]; then ssh-keygen -q -f ~/.ssh/id_rsa -P ''; fi")
         sshresult=""
         machine.communicate.execute("cat ~/.ssh/id_rsa.pub") do |type, data|
           sshresult << data if type == :stdout
@@ -73,9 +71,7 @@ module VagrantPlugins
       end
 
       def get_root_key(machine)
-        if (machine.communicate.test("sudo test -e ~/.ssh/id_rsa") or machine.communicate.test("sudo test -e ~/.ssh/id_rsa.pub"))
-          machine.communicate.sudo("ssh-keygen -q -f ~/.ssh/id_rsa -P ''")
-        end
+        machine.communicate.sudo("if [ ! -e ~/.ssh/id_rsa ] || [ ! -e ~/.ssh/id_rsa.pub ]; then ssh-keygen -q -f ~/.ssh/id_rsa -P ''; fi")
         sshrootresult = ""
         machine.communicate.sudo("cat ~/.ssh/id_rsa.pub") do |type, data|
           sshrootresult << data if type == :stdout
