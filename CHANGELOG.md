@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.6
+### Fixes
+* Single-liner for get_user_key e get_root_key functions
+
+
 ## 1.0.5
 ### Fixes
 * Changed logic in test file existence
