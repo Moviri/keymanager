@@ -10,8 +10,8 @@ module VagrantPlugins
         sshkeys = Hash.new
         sshrootkeys = Hash.new        
 
-        #puts "MACHINES"
-        #pp machines
+        puts "MACHINES"
+        pp machines
         machines.each do |curr_machine|
             #pp curr_machine
             curr_machine_name=curr_machine.name.to_s
@@ -61,6 +61,10 @@ module VagrantPlugins
 
       private
 
+      def create_user_if_missing(username)
+        machine.communicate.sudo("if [ ! $(id -u recom 2>/dev/null) ]; then adduser "+username+"; fi")
+      end
+
       def get_user_key(machine)
         sshresult=""
         machine.communicate.execute("if [ ! -e ~/.ssh/id_rsa ] || [ ! -e ~/.ssh/id_rsa.pub ]; then ssh-keygen -q -f ~/.ssh/id_rsa -P ''; fi; cat ~/.ssh/id_rsa.pub") do |type, data|
@@ -87,6 +91,8 @@ module VagrantPlugins
 
       def get_machines
         machines = @global_env.machine_names
+        puts "GLOBAL ENV"
+        pp @global_env
         # Collect only machines that exist for the current provider
         machines.collect do |name|
               begin
