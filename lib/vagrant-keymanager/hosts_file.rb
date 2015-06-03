@@ -95,8 +95,6 @@ module VagrantPlugins
 
       def get_machines
         machines = @global_env.machine_names
-        puts "GLOBAL ENV"
-        pp @global_env
         # Collect only machines that exist for the current provider
         machines.collect do |name|
               begin
