@@ -11,7 +11,11 @@ module VagrantPlugins
         sshrootkeys = Hash.new        
 
         puts "MACHINES"
-        pp machines
+        machines.each do |curr_machine|
+          puts curr_machine.name.to_s
+          pp curr_machine.state
+        end
+
         machines.each do |curr_machine|
             #pp curr_machine
             curr_machine_name=curr_machine.name.to_s
