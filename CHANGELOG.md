@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.8
+### Fixes
+* Can now get ssh keys for a list of users. Supply it via param 'user_list'. Root user is implicit so no need to add it
+
+
 ## 1.0.6
 ### Fixes
 * Single-liner for get_user_key e get_root_key functions
